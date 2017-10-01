@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <sys/time.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_platform.h>
 #include <SDL2/SDL_rwops.h>
@@ -107,18 +106,21 @@ SYS TIME
 */
 float Sys_FloatTime (void)
 {
-    struct              timeval tp;
-    static long int     secbase = 0;
-
-    gettimeofday(&tp, NULL);
-
-    if (!secbase)
+    static Uint64 freq = 0;
+    static Uint64 secbase = 0;
+    const Uint64 count = SDL_GetPerformanceCounter();
+    if (freq == 0)
     {
-        secbase = tp.tv_sec;
-        return tp.tv_usec * 1.0e-6;
+        freq = SDL_GetPerformanceFrequency();
+        secbase = count / freq;
+        return ((count * 1000000) / freq) * 1.0e-6;
     }
-
-    return (float)(tp.tv_sec - secbase) + (float)tp.tv_usec * 1.0e-6;
+    else
+    {
+        const float seconds = (float)((count / freq) - secbase);
+        const float micros = (float)((count * 1000000) / freq) * 1.0e-6;
+        return seconds + micros;
+    }
 }
 
 
