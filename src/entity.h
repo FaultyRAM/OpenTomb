@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include "os.h"
+
 struct room_sector_s;
 struct obb_s;
 struct character_s;
@@ -166,7 +168,7 @@ typedef struct entity_s
     struct physics_data_s              *physics;
     float                               scaling[3];         // entity scaling
     float                               angles[3];
-    float                               transform[16] __attribute__((packed, aligned(16))); // GL transformation matrix
+    float                               OT_DECORATED(transform[16], OT_ALIGNED(16)); // GL transformation matrix
 
     struct obb_s                       *obb;                // oriented bounding box
     struct engine_container_s          *self;

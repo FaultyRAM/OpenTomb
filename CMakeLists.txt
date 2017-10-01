@@ -166,6 +166,7 @@ set(OPENTOMB_SRCS
     src/main_SDL.cpp
     src/mesh.c
     src/mesh.h
+    src/os.h
     src/resource.cpp
     src/resource.h
     src/room.cpp

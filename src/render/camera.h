@@ -5,6 +5,8 @@
 #include <SDL2/SDL_platform.h>
 #include <SDL2/SDL_opengl.h>
 
+#include "../os.h"
+
 struct room_s;
 struct frustum_s;
 
@@ -64,10 +66,10 @@ typedef struct camera_state_s
 
 typedef struct camera_s
 {
-    GLfloat                     gl_transform[16] __attribute__((packed, aligned(16)));
-    GLfloat                     gl_view_mat[16] __attribute__((packed, aligned(16)));
-    GLfloat                     gl_proj_mat[16] __attribute__((packed, aligned(16)));
-    GLfloat                     gl_view_proj_mat[16] __attribute__((packed, aligned(16)));
+    GLfloat                     OT_DECORATED(gl_transform[16], OT_ALIGNED(16));
+    GLfloat                     OT_DECORATED(gl_view_mat[16], OT_ALIGNED(16));
+    GLfloat                     OT_DECORATED(gl_proj_mat[16], OT_ALIGNED(16));
+    GLfloat                     OT_DECORATED(gl_view_proj_mat[16], OT_ALIGNED(16));
 
     GLfloat                     clip_planes[16];        // frustum side clip planes
     GLfloat                     prev_pos[3];            // previous camera position

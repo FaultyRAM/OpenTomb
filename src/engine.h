@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 
+#include "os.h"
+
 #define LEVEL_NAME_MAX_LEN                      (64)
 #define MAX_ENGINE_PATH                         (1024)
 
@@ -121,7 +123,7 @@ engine_container_p Container_Create();
 void Container_Delete(engine_container_p cont);
 
 void Engine_Start(int argc, char **argv);
-void Engine_Shutdown(int val) __attribute__((noreturn));
+void OT_DECORATED(Engine_Shutdown(int val), OT_NORETURN);
 const char *Engine_GetBasePath();
 void Engine_SetDone();
 void Engine_LoadConfig(const char *filename);
