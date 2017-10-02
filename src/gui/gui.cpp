@@ -452,35 +452,39 @@ bool Gui_LoadScreenAssignPic(const char* pic_name)
     size_t pic_len = strlen(pic_name);
     size_t base_len = strlen(Engine_GetBasePath());
     size_t buf_len = pic_len + base_len + 5;
-    char image_name_buf[buf_len];
+    char *image_name_buf = (char *)(malloc(buf_len));
     int image_format = 0;
+    bool ret = false;
 
-    strncpy(image_name_buf, Engine_GetBasePath(), buf_len);
-    strncat(image_name_buf, pic_name, buf_len);
-    if(pic_len > 3)
+    if (image_name_buf != NULL)
     {
-        char *ext = image_name_buf + pic_len + base_len;
-        if(strncpy(ext, ".png", 5) && Sys_FileFound(image_name_buf, 0))
+        strncpy(image_name_buf, Engine_GetBasePath(), buf_len);
+        strncat(image_name_buf, pic_name, buf_len);
+        if(pic_len > 3)
         {
-            image_format = IMAGE_FORMAT_PNG;
-        }else if(strncpy(ext, ".pcx", 5) && Sys_FileFound(image_name_buf, 0))
-        {
-            image_format = IMAGE_FORMAT_PCX;
+            char *ext = image_name_buf + pic_len + base_len;
+            if(strncpy(ext, ".png", 5) && Sys_FileFound(image_name_buf, 0))
+            {
+                image_format = IMAGE_FORMAT_PNG;
+            }else if(strncpy(ext, ".pcx", 5) && Sys_FileFound(image_name_buf, 0))
+            {
+                image_format = IMAGE_FORMAT_PCX;
+            }
         }
-    }
+    
+        uint8_t *img_pixels = NULL;
+        uint32_t img_w = 0;
+        uint32_t img_h = 0;
+        uint32_t img_bpp = 32;
+        if(Image_Load(image_name_buf, image_format, &img_pixels, &img_w, &img_h, &img_bpp))
+        {
+            ret = Gui_SetScreenTexture(img_pixels, img_w, img_h, img_bpp);
+            free(img_pixels);
+        }
 
-    uint8_t *img_pixels = NULL;
-    uint32_t img_w = 0;
-    uint32_t img_h = 0;
-    uint32_t img_bpp = 32;
-    if(Image_Load(image_name_buf, image_format, &img_pixels, &img_w, &img_h, &img_bpp))
-    {
-        bool ret = Gui_SetScreenTexture(img_pixels, img_w, img_h, img_bpp);
-        free(img_pixels);
-        return ret;
+        free(image_name_buf);
     }
-
-    return false;
+    return ret;
 }
 
 /**
