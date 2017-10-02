@@ -28,6 +28,8 @@
 
 #include <stdint.h>
 #include <limits.h>
+
+#include "../os.h"
 #include "tiny_codec.h"
 
 extern const uint8_t ff_reverse[256];
@@ -534,7 +536,7 @@ static inline int av_log2(uint32_t value)
     for(; value; value >>= 1, ++ret);
     return ret ? ret - 1 : ret;
 #else
-    return (31 - __builtin_clz((value) | 1));
+    return (31 - OT_LEADING_ZERO_BITS((value) | 1));
 #endif
 }
 
