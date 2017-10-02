@@ -1,4 +1,5 @@
 
+#include <assert.h>
 #include <stdlib.h>
 
 #include "core/system.h"
@@ -90,7 +91,8 @@ void SkeletalModel_Clear(skeletal_model_p model)
 void SkeletalModel_GenParentsIndexes(skeletal_model_p model)
 {
     int stack = 0;
-    uint16_t parents[model->mesh_count];
+    uint16_t *parents = malloc(model->mesh_count);
+    assert(parents != NULL);
 
     parents[0] = 0;
     model->mesh_tree[0].parent = 0;                                             // root
@@ -129,6 +131,8 @@ void SkeletalModel_GenParentsIndexes(skeletal_model_p model)
             }
         }
     }
+
+    free(parents);
 }
 
 
