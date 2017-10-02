@@ -24,6 +24,7 @@
 #define AVCODEC_BYTESTREAM_H
 
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 //#include "libavutil/avassert.h"
