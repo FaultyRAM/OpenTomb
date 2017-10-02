@@ -15,7 +15,8 @@
 #define TINY_STREAM_H
 
 #include <stdint.h>
-#include <pthread.h>
+
+#include <SDL2/SDL.h>
 
 #include "tiny_codec.h"
 
@@ -31,10 +32,10 @@ extern "C" {
 typedef struct stream_codec_s
 {
     struct tiny_codec_s      codec;
-    pthread_t                thread;
-    pthread_mutex_t          timer_mutex;
-    pthread_mutex_t          video_buffer_mutex;
-    pthread_mutex_t          audio_buffer_mutex;
+    SDL_Thread*              thread;
+    SDL_sem*                 timer_sem;
+    SDL_mutex*               video_buffer_mutex;
+    SDL_mutex*               audio_buffer_mutex;
     volatile int             stop;
     volatile int             update_audio;
     volatile int             state;
