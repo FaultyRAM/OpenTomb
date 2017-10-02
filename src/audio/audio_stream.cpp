@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-#include "../config-opentomb.h"
+#include "config-opentomb.h"
 
 extern "C" {
 #include <al.h>
@@ -166,6 +166,7 @@ int StreamTrack_Pause(stream_track_p s)
         alSourcePause(s->source);
         s->state = TR_AUDIO_STREAM_PAUSED;
     }
+    return 0;
 }
 
 

@@ -1,5 +1,5 @@
 
-#include "../config-opentomb.h"
+#include "config-opentomb.h"
 
 extern "C" {
 #include <al.h>
